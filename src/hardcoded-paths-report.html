@@ -1,0 +1,119 @@
+<html><head><title>Hardcoded Paths Report</title></head><body>
+<h1>Hardcoded Paths in Source Files</h1>
+<ul>
+<li><b>./engine/3dgui.cpp</b>:<b>356</b> — <code>                if(!overlaytex) overlaytex = textureload("data/guioverlay.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>413</b> — <code>                if(!overlaytex) overlaytex = textureload("data/guioverlay.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>459</b> — <code>                if(!overlaytex) overlaytex = textureload("data/guioverlay.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>673</b> — <code>            if(!overlaytex) overlaytex = textureload("data/guioverlay.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>761</b> — <code>            if(!overlaytex) overlaytex = textureload("data/guioverlay.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>772</b> — <code>            if(!slidertex) slidertex = textureload("data/guislider.png", 3);</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>822</b> — <code>                    defformatstring(tname, "packages/icons/%s%s", icon, ext ? "" : ".jpg");</code></li>
+<li><b>./engine/3dgui.cpp</b>:<b>839</b> — <code>        if(!skintex) skintex = textureload("data/guiskin.png", 3);</code></li>
+<li><b>./engine/animmodel.h</b>:<b>1453</b> — <code>        defformatstring(cfgname, "packages/models/%s/%s.cfg", BASE::name, MDL::formatname());</code></li>
+<li><b>./engine/blob.cpp</b>:<b>694</b> — <code>    blobrenderer("&lt;grey&gt;packages/particles/blob.png"),</code></li>
+<li><b>./engine/blob.cpp</b>:<b>695</b> — <code>    blobrenderer("&lt;grey&gt;packages/particles/blob.png")</code></li>
+<li><b>./engine/cubeloader.cpp</b>:<b>368</b> — <code>        formatstring(cfgname, "packages/cube/%s.cfg", mname);</code></li>
+<li><b>./engine/cubeloader.cpp</b>:<b>370</b> — <code>        execfile("packages/cube/package.cfg");</code></li>
+<li><b>./engine/decal.cpp</b>:<b>588</b> — <code>    decalrenderer("&lt;grey&gt;packages/particles/scorch.png", DF_ROTATE, 500),</code></li>
+<li><b>./engine/decal.cpp</b>:<b>589</b> — <code>    decalrenderer("&lt;grey&gt;packages/particles/blood.png", DF_RND4|DF_ROTATE|DF_INVMOD),</code></li>
+<li><b>./engine/decal.cpp</b>:<b>590</b> — <code>    decalrenderer("&lt;grey&gt;packages/particles/bullet.png", DF_OVERBRIGHT)</code></li>
+<li><b>./engine/explosion.h</b>:<b>247</b> — <code>static fireballrenderer fireballs("packages/particles/explosion.png"), bluefireballs("packages/particles/plasma.png");</code></li>
+<li><b>./engine/lensflare.h</b>:<b>192</b> — <code>static flarerenderer flares("&lt;grey&gt;packages/particles/lensflares.png", 64);</code></li>
+<li><b>./engine/lightmap.cpp</b>:<b>2728</b> — <code>        defformatstring(buf, "lightmap_%s_%d.png", name ? name+1 : map, i);</code></li>
+<li><b>./engine/lightning.h</b>:<b>85</b> — <code>        : listrenderer("packages/particles/lightning.jpg", 2, PT_LIGHTNING|PT_TRACK|PT_GLARE)</code></li>
+<li><b>./engine/main.cpp</b>:<b>110</b> — <code>    stream *f = openutf8file("init.cfg", "w");</code></li>
+<li><b>./engine/main.cpp</b>:<b>227</b> — <code>        settexture("data/background.png", 0);</code></li>
+<li><b>./engine/main.cpp</b>:<b>232</b> — <code>        settexture("data/background_detail.png", 0);</code></li>
+<li><b>./engine/main.cpp</b>:<b>235</b> — <code>        settexture("data/background_decal.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>250</b> — <code>        settexture((maxtexsize ? min(maxtexsize, hwtexsize) : hwtexsize) &gt;= 1024 && (screenw &gt; 1280 || screenh &gt; 800) ? "data/logo_1024.png" : "data/logo.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>295</b> — <code>            settexture("data/mapshot_frame.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>372</b> — <code>    settexture("data/loading_frame.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>387</b> — <code>        settexture("data/loading_bar.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>432</b> — <code>        settexture("data/mapshot_frame.png", 3);</code></li>
+<li><b>./engine/main.cpp</b>:<b>787</b> — <code>       !reloadtexture("data/logo.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>788</b> — <code>       !reloadtexture("data/logo_1024.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>789</b> — <code>       !reloadtexture("data/background.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>790</b> — <code>       !reloadtexture("data/background_detail.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>791</b> — <code>       !reloadtexture("data/background_decal.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>792</b> — <code>       !reloadtexture("data/mapshot_frame.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>793</b> — <code>       !reloadtexture("data/loading_frame.png") ||</code></li>
+<li><b>./engine/main.cpp</b>:<b>794</b> — <code>       !reloadtexture("data/loading_bar.png"))</code></li>
+<li><b>./engine/main.cpp</b>:<b>1208</b> — <code>    execfile("init.cfg", false);</code></li>
+<li><b>./engine/main.cpp</b>:<b>1209</b> — <code>    execfile("data/engine.cfg", false);</code></li>
+<li><b>./engine/main.cpp</b>:<b>1287</b> — <code>    notexture = textureload("packages/textures/notexture.png");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1291</b> — <code>    if(!execfile("data/stdlib.cfg", false)) fatal("cannot find data files (you are running from the wrong folder, try .bat file in the main folder)");   // this is the first file we load.</code></li>
+<li><b>./engine/main.cpp</b>:<b>1292</b> — <code>    if(!execfile("data/font.cfg", false)) fatal("cannot find font definitions");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1307</b> — <code>    execfile("data/keymap.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1308</b> — <code>    execfile("data/stdedit.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1309</b> — <code>    execfile("data/sounds.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1310</b> — <code>    execfile("data/menus.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1311</b> — <code>    execfile("data/heightmap.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1312</b> — <code>    execfile("data/blendbrush.cfg");</code></li>
+<li><b>./engine/main.cpp</b>:<b>1313</b> — <code>    defformatstring(gamecfgname, "data/game_%s.cfg", game::gameident());</code></li>
+<li><b>./engine/main.cpp</b>:<b>1344</b> — <code>    if(execfile("once.cfg", false)) remove(findfile("once.cfg", "rb"));</code></li>
+<li><b>./engine/master.cpp</b>:<b>698</b> — <code>    defformatstring(cfgname, "%smaster.cfg", dir);</code></li>
+<li><b>./engine/master.cpp</b>:<b>712</b> — <code>            conoutf("reloading master.cfg");</code></li>
+<li><b>./engine/md2.h</b>:<b>282</b> — <code>        defformatstring(name3, "packages/models/%s/md2.cfg", name);</code></li>
+<li><b>./engine/md2.h</b>:<b>285</b> — <code>            formatstring(name3, "packages/models/%s/md2.cfg", pname);</code></li>
+<li><b>./engine/obj.h</b>:<b>29</b> — <code>            if(len &lt; 4 || strcasecmp(&filename[len-4], ".obj")) return false;</code></li>
+<li><b>./engine/obj.h</b>:<b>174</b> — <code>        defformatstring(name1, "packages/models/%s/tris.obj", name);</code></li>
+<li><b>./engine/obj.h</b>:<b>178</b> — <code>            defformatstring(name2, "packages/models/%s/tris.obj", pname);    // try obj in parent folder (vert sharing)</code></li>
+<li><b>./engine/rendergl.cpp</b>:<b>2057</b> — <code>    if(!damagetex) damagetex = textureload("packages/hud/damage.png", 3);</code></li>
+<li><b>./engine/rendergl.cpp</b>:<b>2093</b> — <code>        if(!name) name = "packages/crosshairs/default.png";</code></li>
+<li><b>./engine/rendergl.cpp</b>:<b>2111</b> — <code>        if(!name) name = "packages/crosshairs/default.png";</code></li>
+<li><b>./engine/rendergl.cpp</b>:<b>2134</b> — <code>        if(!cursor) cursor = textureload("data/guicursor.png", 3, true);</code></li>
+<li><b>./engine/rendermodel.cpp</b>:<b>1034</b> — <code>    ifnoload(tex, makerelpath(mdir, name ".jpg", prefix, cmd)) \</code></li>
+<li><b>./engine/rendermodel.cpp</b>:<b>1036</b> — <code>        ifnoload(tex, makerelpath(mdir, name ".png", prefix, cmd)) \</code></li>
+<li><b>./engine/rendermodel.cpp</b>:<b>1038</b> — <code>            ifnoload(tex, makerelpath(maltdir, name ".jpg", prefix, cmd)) \</code></li>
+<li><b>./engine/rendermodel.cpp</b>:<b>1040</b> — <code>                ifnoload(tex, makerelpath(maltdir, name ".png", prefix, cmd)) return; \</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>544</b> — <code>static texticonrenderer texticons("packages/hud/items.png", PT_TEXTICON|PT_LERP);</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>904</b> — <code>    new quadrenderer("&lt;grey&gt;packages/particles/blood.png", PT_PART|PT_FLIP|PT_MOD|PT_RND4, DECAL_BLOOD), // blood spats (note: rgb is inverted)</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>905</b> — <code>    new trailrenderer("packages/particles/base.png", PT_TRAIL|PT_LERP),                            // water, entity</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>906</b> — <code>    new quadrenderer("&lt;grey&gt;packages/particles/smoke.png", PT_PART|PT_FLIP|PT_LERP),               // smoke</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>907</b> — <code>    new quadrenderer("&lt;grey&gt;packages/particles/steam.png", PT_PART|PT_FLIP),                       // steam</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>908</b> — <code>    new quadrenderer("&lt;grey&gt;packages/particles/flames.png", PT_PART|PT_HFLIP|PT_RND4|PT_GLARE),    // flame on - no flipping please, they have orientation</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>909</b> — <code>    new quadrenderer("packages/particles/ball1.png", PT_PART|PT_FEW|PT_GLARE),                     // fireball1</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>910</b> — <code>    new quadrenderer("packages/particles/ball2.png", PT_PART|PT_FEW|PT_GLARE),                     // fireball2</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>911</b> — <code>    new quadrenderer("packages/particles/ball3.png", PT_PART|PT_FEW|PT_GLARE),                     // fireball3</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>912</b> — <code>    new taperenderer("packages/particles/flare.jpg", PT_TAPE|PT_GLARE),                            // streak</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>916</b> — <code>    new quadrenderer("packages/particles/spark.png", PT_PART|PT_FLIP|PT_GLARE),                    // sparks</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>917</b> — <code>    new quadrenderer("packages/particles/base.png",  PT_PART|PT_FLIP|PT_GLARE),                    // edit mode entities</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>918</b> — <code>    new quadrenderer("&lt;grey&gt;packages/particles/snow.png", PT_PART|PT_FLIP|PT_RND4, -1),            // colliding snow</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>919</b> — <code>    new quadrenderer("packages/particles/muzzleflash1.jpg", PT_PART|PT_FEW|PT_FLIP|PT_GLARE|PT_TRACK), // muzzle flash</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>920</b> — <code>    new quadrenderer("packages/particles/muzzleflash2.jpg", PT_PART|PT_FEW|PT_FLIP|PT_GLARE|PT_TRACK), // muzzle flash</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>921</b> — <code>    new quadrenderer("packages/particles/muzzleflash3.jpg", PT_PART|PT_FEW|PT_FLIP|PT_GLARE|PT_TRACK), // muzzle flash</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>922</b> — <code>    new quadrenderer("packages/hud/items.png", PT_PART|PT_FEW|PT_ICON),                            // hud icon</code></li>
+<li><b>./engine/renderparticles.cpp</b>:<b>923</b> — <code>    new quadrenderer("&lt;colorify:1/1/1&gt;packages/hud/items.png", PT_PART|PT_FEW|PT_ICON),            // grey hud icon</code></li>
+<li><b>./engine/rendersky.cpp</b>:<b>12</b> — <code>        copystring(name, makerelpath("packages", basename));</code></li>
+<li><b>./engine/rendersky.cpp</b>:<b>21</b> — <code>            defformatstring(ext, "_%s.jpg", side);</code></li>
+<li><b>./engine/rendersky.cpp</b>:<b>39</b> — <code>    copystring(name, makerelpath("packages", basename));</code></li>
+<li><b>./engine/rendersky.cpp</b>:<b>44</b> — <code>        concatstring(name, ".jpg");</code></li>
+<li><b>./engine/renderva.cpp</b>:<b>1434</b> — <code>        defformatstring(name, "&lt;grey&gt;&lt;noswizzle&gt;packages/caustics/caust%.2d.png", i);</code></li>
+<li><b>./engine/server.cpp</b>:<b>1077</b> — <code>    execfile("server-init.cfg", false);</code></li>
+<li><b>./engine/shader.cpp</b>:<b>25</b> — <code>    execfile("data/glsl.cfg");</code></li>
+<li><b>./engine/sound.cpp</b>:<b>426</b> — <code>    static const char * const exts[] = { "", ".wav", ".ogg" };</code></li>
+<li><b>./engine/sound.cpp</b>:<b>436</b> — <code>            if(len &gt;= 4 && !strcasecmp(filename + len - 4, ".wav"))</code></li>
+<li><b>./engine/texture.cpp</b>:<b>1458</b> — <code>            static const char *exts[] = {".jpg", ".png"};</code></li>
+<li><b>./engine/texture.cpp</b>:<b>2135</b> — <code>    s.autograss = name[0] ? newstring(makerelpath("packages", name, NULL, "&lt;premul&gt;")) : NULL;</code></li>
+<li><b>./engine/texture.cpp</b>:<b>2180</b> — <code>    s.layermaskname = name[0] ? newstring(path(makerelpath("packages", name))) : NULL;</code></li>
+<li><b>./engine/texture.cpp</b>:<b>2657</b> — <code>    copystring(pname, makerelpath("packages", name));</code></li>
+<li><b>./engine/texture.cpp</b>:<b>2662</b> — <code>        defformatstring(jpgname, "%s_*.jpg", pname);</code></li>
+<li><b>./engine/texture.cpp</b>:<b>2666</b> — <code>            defformatstring(pngname, "%s_*.png", pname);</code></li>
+<li><b>./engine/texture.cpp</b>:<b>3522</b> — <code>const char *imageexts[NUMIMG] = { ".bmp", ".tga", ".png", ".jpg" };</code></li>
+<li><b>./engine/world.cpp</b>:<b>1274</b> — <code>        execfile("data/default_map_settings.cfg", false);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>185</b> — <code>    formatstring(cfgname, "packages/%s/%s.cfg", pakname, mcfgname);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>186</b> — <code>    formatstring(picname, "packages/%s.jpg", mapname);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>199</b> — <code>    defformatstring(cfgname, "packages/%s/%s.cfg", pakname, mcfgname);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>1249</b> — <code>    execfile("data/default_map_settings.cfg", false);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>1287</b> — <code>    defformatstring(fname, "%s.obj", name);</code></li>
+<li><b>./engine/worldio.cpp</b>:<b>1379</b> — <code>        f-&gt;printf("map_Kd %s\n", vslot.slot-&gt;sts.empty() ? notexture-&gt;name : path(makerelpath("packages", vslot.slot-&gt;sts[0].name)));</code></li>
+<li><b>./game/game.cpp</b>:<b>42</b> — <code>        return "autoexec.cfg";</code></li>
+<li><b>./game/game.cpp</b>:<b>47</b> — <code>        return "data/defaults.cfg";</code></li>
+<li><b>./game/game.cpp</b>:<b>52</b> — <code>        return "data/crosshair.png";</code></li>
+<li><b>./game/game.cpp</b>:<b>57</b> — <code>        return "restore.cfg";</code></li>
+<li><b>./game/game.cpp</b>:<b>62</b> — <code>        return "config.cfg";</code></li>
+<li><b>./include/SDL_audio.h</b>:<b>464</b> — <code> *      SDL_LoadWAV_RW(SDL_RWFromFile("sample.wav", "rb"), 1, ...);</code></li>
+<li><b>./shared/stream.cpp</b>:<b>463</b> — <code>        static int len = strlen("packages");</code></li>
+<li><b>./shared/stream.cpp</b>:<b>464</b> — <code>        filter = strstr(filter, "packages");</code></li>
+</ul>
+</body></html>

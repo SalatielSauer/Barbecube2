@@ -1,0 +1,8 @@
+bin64/
+
+*.user
+*.suo
+
+src/vs/
+src/vs/.vs
+src/vs/Debug64
