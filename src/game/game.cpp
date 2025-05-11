@@ -1,12 +1,22 @@
 #include "cube.h"
 
+
+
 namespace game
 {
+    dynent* player1 = new dynent();
+    dynent* dummy = new dynent();
+
+    vector<dynent*> dynents;
+
 
     dynent* iterdynents(int i)
     {
-        return new dynent();
+        if (i == 0) return player1;
+        int npcindex = i - 1;
+        return npcindex < dynents.length() ? dynents[npcindex] : NULL;
     }
+
 
     float abovegameplayhud(int w, int h)
     {
@@ -143,7 +153,7 @@ namespace game
 
     const char* gameident()
     {
-        return "barb";
+        return "fps";
     }
 
     void gameplayhud(int w, int h)
@@ -240,6 +250,9 @@ namespace game
 
     void rendergame(bool mainpass)
     {
+        setbbfrommodel(dummy, "mrfixit");
+        //rendermodel(NULL, "mrfixit", ANIM_MAPMODEL | ANIM_LOOP, vec(dummy->o).sub(vec(0, 0, dummy->eyeheight)), dummy->yaw + 90, 0, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, dummy);
+        renderclient(dummy, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
     }
 
     void renderplayerpreview(int model, int team, int weap)
@@ -274,10 +287,60 @@ namespace game
 
     void setupcamera()
     {
+        camera1 = player1;
     }
 
     void startmap(const char* name)
     {
+        // player position
+        player1->o = vec(512.0f, 512.0f, 530.0f);  // Example coordinates
+
+        // player state
+        player1->state = CS_ALIVE;
+        player1->type = ENT_PLAYER;
+
+        // physics properties if needed
+        player1->vel = vec(0, 0, 0);
+        player1->yaw = 0.0f;  // facing angle
+        player1->pitch = 0.0f;
+        player1->roll = 0.0f;
+
+        player1->radius = 4.1f;
+        player1->eyeheight = 14.0f;
+        player1->aboveeye = 1.0f;
+
+        player1->collidetype = COLLIDE_ELLIPSE;
+        player1->physstate = PHYS_FALL;
+
+        player1->reset();
+
+        //setbbfrommodel(player1, "mrfixit");
+        entinmap(player1);
+        //renderclient(player1, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
+        
+        dummy->o = vec(550.0f, 512.0f, 512.0f);
+        dummy->state = CS_ALIVE;
+        dummy->type = ENT_AI;
+        dummy->eyeheight = 14.0f;
+        dummy->reset();
+        entinmap(dummy);
+        dynents.add(dummy);
+    }
+
+    void updateworld()
+    {
+        physicsframe();
+
+        // make dummy spin like a fan
+        if (dummy)
+        {
+            static float t = 0;
+            t += 0.1f;
+            dummy->yaw += 3.0f;
+            dummy->pitch = sinf(t) * 45.0f; // head wobble
+            if (dummy->yaw >= 360.0f) dummy->yaw -= 360.0f;
+
+        }
     }
 
     void suicide(physent* d)
@@ -286,11 +349,6 @@ namespace game
 
     void toserver(char* text)
     {
-    }
-
-    void updateworld()
-    {
-        physicsframe();
     }
 
     void vartrigger(ident* id)
@@ -446,3 +504,13 @@ namespace server
     bool ispaused() { return false; }
     int scaletime(int t) { return t * 100; }
 }
+
+
+void changemap(const char* name, int mode) // request map change, server may ignore
+{
+    //server::forcemap(name, mode);
+    if (!isconnected()) localconnect();
+    if (!load_world(name)) emptymap(0, true, name);
+}
+
+ICOMMAND(map, "si", (char* name, int mode), changemap(name, mode));

@@ -1178,18 +1178,6 @@ int getclockmillis()
 
 VAR(numcpus, 1, 1, 16);
 
-void loadcfgalias(const char* alias, const char* fallback = NULL, bool fatalerror = true)
-{
-    const char* cfg = getalias(alias);
-    if (!cfg || !cfg[0]) cfg = fallback;
-    if (!cfg || !execfile(cfg, false))
-    {
-        if (fatalerror) fatal("cannot find cfg for alias %s (resolved to %s)", alias, cfg ? cfg : "undefined");
-        else conoutf(CON_ERROR, "cannot find cfg for alias %s", alias);
-    }
-}
-
-
 int main(int argc, char **argv)
 {
     #ifdef WIN32
