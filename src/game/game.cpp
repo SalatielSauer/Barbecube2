@@ -1,6 +1,6 @@
 #include "cube.h"
 
-
+extern bool bounce(physent* d, float elasticity, float friction, float gravity);
 
 namespace game
 {
@@ -247,12 +247,13 @@ namespace game
     void renderavatar()
     {
     }
-
+    
     void rendergame(bool mainpass)
     {
         setbbfrommodel(dummy, "mrfixit");
-        //rendermodel(NULL, "mrfixit", ANIM_MAPMODEL | ANIM_LOOP, vec(dummy->o).sub(vec(0, 0, dummy->eyeheight)), dummy->yaw + 90, 0, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, dummy);
-        renderclient(dummy, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
+        rendermodel(NULL, "mrfixit", ANIM_IDLE | ANIM_LOOP, vec(dummy->o).sub(vec(0, 0, dummy->eyeheight)), dummy->yaw + 90, dummy->pitch, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, dummy);
+
+        //renderclient(dummy, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0, 0, false);
     }
 
     void renderplayerpreview(int model, int team, int weap)
@@ -287,7 +288,7 @@ namespace game
 
     void setupcamera()
     {
-        camera1 = player1;
+        //camera1 = player1;
     }
 
     void startmap(const char* name)
@@ -318,29 +319,63 @@ namespace game
         entinmap(player1);
         //renderclient(player1, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
         
-        dummy->o = vec(550.0f, 512.0f, 512.0f);
+        dummy->o = vec(550.0f, 512.0f, 550.0f);
         dummy->state = CS_ALIVE;
         dummy->type = ENT_AI;
+        dummy->physstate = PHYS_FALL;
+        dummy->collidetype = COLLIDE_ELLIPSE_PRECISE;
         dummy->eyeheight = 14.0f;
+         
         dummy->reset();
         entinmap(dummy);
         dynents.add(dummy);
     }
 
+    vec cross(const vec& a, const vec& b)
+    {
+        return vec(
+            a.y * b.z - a.z * b.y,
+            a.z * b.x - a.x * b.z,
+            a.x * b.y - a.y * b.x
+        );
+    }
+
     void updateworld()
     {
-        physicsframe();
-
-        // make dummy spin like a fan
         if (dummy)
         {
             static float t = 0;
             t += 0.1f;
-            dummy->yaw += 3.0f;
-            dummy->pitch = sinf(t) * 45.0f; // head wobble
-            if (dummy->yaw >= 360.0f) dummy->yaw -= 360.0f;
 
+            vec velocity = dummy->vel;
+            velocity.z = 0;
+            float speed = velocity.magnitude();
+
+            if (speed > 1e-3f)
+            {
+                vec rollAxis = cross(vec(0, 0, 1), velocity).normalize();
+                float angularSpeed = speed / dummy->radius;
+
+                dummy->pitch = -rollAxis.x * angularSpeed;
+                dummy->yaw += rollAxis.y * angularSpeed / 3;
+                dummy->roll = rollAxis.y * angularSpeed;
+                last_pain = lastmillis;
+                moveragdoll(dummy);
+            }
+
+            float dist = dummy->o.dist(player1->o);
+            if (dist < 10.0f)
+            {
+                vec push = vec(dummy->o).sub(player1->o).normalize();
+                push.mul(30.0f);
+                dummy->vel.add(push);
+            }
+
+            bounce(dummy, 0.5f, 0.0f, 1.8f);
         }
+
+        moveplayer(player1, 10, true);
+        physicsframe();
     }
 
     void suicide(physent* d)
