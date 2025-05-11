@@ -358,8 +358,7 @@ namespace game
 
                 dummy->pitch = -rollAxis.x * angularSpeed;
                 dummy->yaw += rollAxis.y * angularSpeed / 3;
-                dummy->roll = rollAxis.y * angularSpeed;
-                last_pain = lastmillis;
+                //dummy->roll = rollAxis.y * angularSpeed;
                 moveragdoll(dummy);
             }
 
