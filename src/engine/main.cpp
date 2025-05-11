@@ -1206,7 +1206,6 @@ int main(int argc, char **argv)
         break;
     }
     execfile("init.cfg", false);
-    execfile("data/engine.cfg", false);
     for(int i = 1; i<argc; i++)
     {
         if(argv[i][0]=='-') switch(argv[i][1])

@@ -301,8 +301,8 @@ namespace game
 
         // physics properties if needed
         player1->vel = vec(0, 0, 0);
-        player1->yaw = 0.0f;  // facing angle
-        player1->pitch = 0.0f;
+        player1->yaw = 269.636f;
+        player1->pitch -30.90f;
         player1->roll = 0.0f;
 
         player1->radius = 4.1f;
