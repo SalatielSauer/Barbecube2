@@ -6,9 +6,9 @@ namespace game
 {
     dynent* player1 = new dynent();
     dynent* dummy = new dynent();
+    dynent* vehicle = new dynent();
 
     vector<dynent*> dynents;
-
 
     dynent* iterdynents(int i)
     {
@@ -17,6 +17,193 @@ namespace game
         return npcindex < dynents.length() ? dynents[npcindex] : NULL;
     }
 
+    void rendergame(bool mainpass)
+    {
+        setbbfrommodel(dummy, "mrfixit");
+        rendermodel(NULL, "mrfixit", ANIM_IDLE | ANIM_LOOP, vec(dummy->o).sub(vec(0, 0, dummy->eyeheight)), dummy->yaw + 90, dummy->pitch, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, dummy);
+
+        rendermodel(NULL, "chair01", ANIM_IDLE | ANIM_LOOP, vec(vehicle->o).sub(vec(0, 0, vehicle->eyeheight)), vehicle->yaw, vehicle->pitch, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, vehicle);
+
+        //renderclient(dummy, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0, 0, false);
+    }
+
+    void startmap(const char* name)
+    {
+        // player position
+        player1->o = vec(512.0f, 512.0f, 530.0f);  // Example coordinates
+
+        // player state
+        player1->state = CS_ALIVE;
+        player1->type = ENT_PLAYER;
+
+        // physics properties if needed
+        player1->vel = vec(0, 0, 0);
+        player1->yaw = 269.636f;
+        player1->pitch - 30.90f;
+        player1->roll = 0.0f;
+
+        player1->radius = 4.1f;
+        player1->eyeheight = 14.0f;
+        player1->aboveeye = 1.0f;
+
+        player1->collidetype = COLLIDE_ELLIPSE;
+        player1->physstate = PHYS_FALL;
+
+        player1->reset();
+
+        //setbbfrommodel(player1, "mrfixit");
+        entinmap(player1);
+        //renderclient(player1, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
+
+        dummy->o = vec(550.0f, 532.0f, 550.0f);
+        dummy->state = CS_ALIVE;
+        dummy->type = ENT_AI;
+        dummy->physstate = PHYS_FALL;
+        dummy->collidetype = COLLIDE_ELLIPSE_PRECISE;
+        dummy->eyeheight = 14.0f;
+
+        dummy->reset();
+        entinmap(dummy);
+        dynents.add(dummy);
+
+        vehicle->o = vec(520.0f, 520.0f, 530.0f);  // start position
+        vehicle->state = CS_ALIVE;
+        vehicle->type = ENT_AI;
+        vehicle->collidetype = COLLIDE_OBB;
+        vehicle->physstate = PHYS_FALL;
+        vehicle->eyeheight = 8.0f;
+        vehicle->aboveeye = 4.0f;
+        vehicle->radius = 5.0f;
+        vehicle->xradius = 6.5f;
+        vehicle->yradius = 4.5f;
+        vehicle->yaw = 90;
+        vehicle->pitch = vehicle->roll = 0;
+        vehicle->reset();
+
+        entinmap(vehicle);
+        dynents.add(vehicle);
+
+    }
+
+    void attachplayerToVehicle(dynent* player, dynent* vehicle)
+    {
+        // attach player to the vehicle
+        player->o = vehicle->o;
+        player->vel = vehicle->vel;
+        player->yaw = vehicle->yaw;
+        player->pitch = vehicle->pitch;
+        player->roll = vehicle->roll;
+    }
+
+    void updateplayerAttachmentToVehicle()
+    {
+        if (player1 && vehicle)
+        {
+            // check if the player is close enough to the vehicle to attach
+            if (player1->o.dist(vehicle->o) < 10.0f)
+            {
+                attachplayerToVehicle(player1, vehicle);
+            }
+            else
+            {
+                // not near, allow normal movement
+                moveplayer(player1, 10, true);
+            }
+        }
+    }
+
+    vec cross(const vec& a, const vec& b)
+    {
+        return vec(
+            a.y * b.z - a.z * b.y,
+            a.z * b.x - a.x * b.z,
+            a.x * b.y - a.y * b.x
+        );
+    }
+
+    VAR(vehicleleft, 0, 0, 1);
+    VAR(vehicleright, 0, 0, 1);
+    VAR(vehiclefwd, 0, 0, 1);
+    void updateworld()
+    {
+        if (dummy)
+        {
+            static float t = 0;
+            t += 0.1f;
+
+            vec velocity = dummy->vel;
+            velocity.z = 0;
+            float speed = velocity.magnitude();
+
+            if (speed > 1e-3f)
+            {
+                vec rollAxis = cross(vec(0, 0, 1), velocity).normalize();
+                float angularSpeed = speed / dummy->radius;
+
+                dummy->pitch = -rollAxis.x * angularSpeed;
+                dummy->yaw += rollAxis.y * angularSpeed / 3;
+                moveragdoll(dummy);
+            }
+
+            // Push from vehicle
+            if (dummy->o.dist(vehicle->o) < 10.0f)
+            {
+                vec push = vec(dummy->o).sub(vehicle->o).normalize();
+                push.mul(40.0f);
+                dummy->vel.add(push);
+            }
+
+            // Push from player if near
+            if (dummy->o.dist(player1->o) < 10.0f)
+            {
+                vec push = vec(dummy->o).sub(player1->o).normalize();
+                push.mul(30.0f);
+                dummy->vel.add(push);
+            }
+            bounce(dummy, 0.5f, 0.0f, 1.8f);
+        }
+
+        if (vehicle)
+        {
+            const float steerSpeed = 1.5f;
+            const float accel = 30.0f;
+            const float maxSpeed = 50.0f;
+            const float friction = 0.9f;
+
+            static bool turningLeft = false, turningRight = false, accelerating = false;
+
+            turningLeft = vehicleright;
+            turningRight = vehicleleft;
+            accelerating = vehiclefwd;
+
+            if (turningLeft) vehicle->yaw += steerSpeed;
+            if (turningRight) vehicle->yaw -= steerSpeed;
+
+            if (accelerating)
+            {
+                float yawrad = vehicle->yaw * RAD;
+                vec forward(-sinf(yawrad), cosf(yawrad), 0);
+                vehicle->vel.add(forward.mul(accel));
+            }
+
+            vec horizontal(vehicle->vel.x, vehicle->vel.y, 0);
+            float speed = horizontal.magnitude();
+            if (speed > maxSpeed)
+            {
+                horizontal.mul(maxSpeed / speed);
+                vehicle->vel.x = horizontal.x;
+                vehicle->vel.y = horizontal.y;
+            }
+
+            vehicle->vel.mul(friction);
+
+            moveplayer(vehicle, 5, true);
+        }
+
+        updateplayerAttachmentToVehicle();
+        
+        physicsframe();
+    }
 
     float abovegameplayhud(int w, int h)
     {
@@ -248,14 +435,6 @@ namespace game
     {
     }
     
-    void rendergame(bool mainpass)
-    {
-        setbbfrommodel(dummy, "mrfixit");
-        rendermodel(NULL, "mrfixit", ANIM_IDLE | ANIM_LOOP, vec(dummy->o).sub(vec(0, 0, dummy->eyeheight)), dummy->yaw + 90, dummy->pitch, MDL_CULL_VFC | MDL_CULL_DIST | MDL_CULL_OCCLUDED | MDL_LIGHT, dummy);
-
-        //renderclient(dummy, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0, 0, false);
-    }
-
     void renderplayerpreview(int model, int team, int weap)
     {
     }
@@ -289,92 +468,6 @@ namespace game
     void setupcamera()
     {
         //camera1 = player1;
-    }
-
-    void startmap(const char* name)
-    {
-        // player position
-        player1->o = vec(512.0f, 512.0f, 530.0f);  // Example coordinates
-
-        // player state
-        player1->state = CS_ALIVE;
-        player1->type = ENT_PLAYER;
-
-        // physics properties if needed
-        player1->vel = vec(0, 0, 0);
-        player1->yaw = 269.636f;
-        player1->pitch -30.90f;
-        player1->roll = 0.0f;
-
-        player1->radius = 4.1f;
-        player1->eyeheight = 14.0f;
-        player1->aboveeye = 1.0f;
-
-        player1->collidetype = COLLIDE_ELLIPSE;
-        player1->physstate = PHYS_FALL;
-
-        player1->reset();
-
-        //setbbfrommodel(player1, "mrfixit");
-        entinmap(player1);
-        //renderclient(player1, "mrfixit", NULL, 0, ANIM_ATTACK1, 300, 0.0, 0);
-        
-        dummy->o = vec(550.0f, 512.0f, 550.0f);
-        dummy->state = CS_ALIVE;
-        dummy->type = ENT_AI;
-        dummy->physstate = PHYS_FALL;
-        dummy->collidetype = COLLIDE_ELLIPSE_PRECISE;
-        dummy->eyeheight = 14.0f;
-         
-        dummy->reset();
-        entinmap(dummy);
-        dynents.add(dummy);
-    }
-
-    vec cross(const vec& a, const vec& b)
-    {
-        return vec(
-            a.y * b.z - a.z * b.y,
-            a.z * b.x - a.x * b.z,
-            a.x * b.y - a.y * b.x
-        );
-    }
-
-    void updateworld()
-    {
-        if (dummy)
-        {
-            static float t = 0;
-            t += 0.1f;
-
-            vec velocity = dummy->vel;
-            velocity.z = 0;
-            float speed = velocity.magnitude();
-
-            if (speed > 1e-3f)
-            {
-                vec rollAxis = cross(vec(0, 0, 1), velocity).normalize();
-                float angularSpeed = speed / dummy->radius;
-
-                dummy->pitch = -rollAxis.x * angularSpeed;
-                dummy->yaw += rollAxis.y * angularSpeed / 3;
-                //dummy->roll = rollAxis.y * angularSpeed;
-                moveragdoll(dummy);
-            }
-
-            float dist = dummy->o.dist(player1->o);
-            if (dist < 10.0f)
-            {
-                vec push = vec(dummy->o).sub(player1->o).normalize();
-                push.mul(30.0f);
-                dummy->vel.add(push);
-            }
-
-            bounce(dummy, 0.5f, 0.0f, 1.8f);
-        }
-
-        moveplayer(player1, 10, true);
-        physicsframe();
     }
 
     void suicide(physent* d)
